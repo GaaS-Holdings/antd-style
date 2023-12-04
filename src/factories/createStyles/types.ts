@@ -6,6 +6,7 @@ import type {
   ReturnStyleToUse,
   Theme,
   ThemeAppearance,
+  ClassNamesUtil
 } from '@/types';
 
 /**
@@ -40,6 +41,7 @@ export interface ReturnStyles<T extends BaseReturnType> extends Pick<CommonStyle
   styles: ReturnStyleToUse<T>;
   theme: Omit<Theme, 'prefixCls'>;
   prefixCls: string;
+  fastCx: ClassNamesUtil;
 }
 
 // 获取样式
