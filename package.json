@@ -44,7 +44,6 @@
     "gh-pages": "npm run docs:build && npm run docs:deploy",
     "i18n-md": "lobe-i18n md",
     "lint": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepare": "husky install && npm run setup",
     "prepublishOnly": "father doctor && npm run build",
     "prettier": "prettier -c --write \"**/**\"",
     "release": "semantic-release",
