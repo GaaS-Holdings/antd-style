@@ -1,3 +1,20 @@
+# antd-style FORK for Archive
+## Making and publishing changes
+1. Install the deps
+```bash
+docker compose run --rm node /bin/sh
+npm install
+```
+2. Make your changes
+3. Commit your changes to the `master` branch
+5. Publishing
+  1. Create new branch `archive-release-{N}` and switch to it
+  2. `npm run build`
+  3. Remove "/es" and "/lib" from `.gitignore`
+  4. Remove "devDependencies" from `package.json`
+  5. Remove "scripts.prepare" from `package.json`
+  6. Commit and push
+
 # antd-style
 
 [![NPM version][npm-image]][npm-url] [![NPM downloads][download-image]][download-url] [![install size][npm-size]][npm-size-url]
