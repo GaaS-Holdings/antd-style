@@ -7,10 +7,5 @@ interface CreateStylesFactory {
     hashPriority?: HashPriority;
     useTheme: () => any;
 }
-export declare const FasterAntdStyleContext: Context<{
-    cache?: any;
-    theme?: any;
-    responsiveMap?: any;
-}>;
 export declare const createStylesFactory: ({ hashPriority, EmotionContext }: CreateStylesFactory) => <Props, Input extends BaseReturnType = BaseReturnType>(styleOrGetStyle: StyleOrGetStyleFn<Input, Props>, options?: ClassNameGeneratorOption) => (props?: Props | undefined) => ReturnStyles<Input>;
 export {};
