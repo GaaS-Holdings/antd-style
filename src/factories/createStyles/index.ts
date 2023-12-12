@@ -1,5 +1,4 @@
-import { Context, useContext, createContext } from 'react';
-
+import { Context, useContext } from 'react';
 import { Emotion, createCSS, serializeCSS } from '@/core';
 import type {
   BaseReturnType,
@@ -9,6 +8,7 @@ import type {
 } from '@/types';
 import { isReactCssResult, classnames } from '@/utils';
 
+import { FasterAntdStyleContext } from './FasterAntdStyleProvider';
 import { convertResponsiveStyleToString } from './response';
 import { ReturnStyles, StyleOrGetStyleFn } from './types';
 
@@ -72,11 +72,6 @@ const generateStyles = (
 }
 
 let createStylesCallsCounter = 0
-export const FasterAntdStyleContext: Context<{
-  cache?: any,
-  theme?: any,
-  responsiveMap?: any
-}> = createContext({});
 
 export const createStylesFactory =
   ({ hashPriority, EmotionContext }: CreateStylesFactory) =>
