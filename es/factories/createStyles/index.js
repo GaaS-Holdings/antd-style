@@ -3,10 +3,17 @@ import _typeof from "@babel/runtime/helpers/esm/typeof";
 import _objectWithoutProperties from "@babel/runtime/helpers/esm/objectWithoutProperties";
 var _excluded = ["stylish", "appearance", "isDarkMode", "prefixCls"],
   _excluded2 = ["prefixCls"];
-import { useContext, createContext } from 'react';
+import { useContext } from 'react';
 import { createCSS, serializeCSS } from "../../core";
 import { isReactCssResult, classnames } from "../../utils";
+import { FasterAntdStyleContext } from "./FasterAntdStyleProvider";
 import { convertResponsiveStyleToString } from "./response";
+var fastCx = function fastCx() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  return classnames(args);
+};
 var generateStyles = function generateStyles(_ref) {
   var props = _ref.props,
     theme = _ref.theme,
@@ -65,11 +72,10 @@ var generateStyles = function generateStyles(_ref) {
     cx: cx,
     theme: res,
     prefixCls: prefixCls,
-    fastCx: classnames
+    fastCx: fastCx
   };
 };
 var createStylesCallsCounter = 0;
-export var FasterAntdStyleContext = /*#__PURE__*/createContext({});
 export var createStylesFactory = function createStylesFactory(_ref4) {
   var hashPriority = _ref4.hashPriority,
     EmotionContext = _ref4.EmotionContext;

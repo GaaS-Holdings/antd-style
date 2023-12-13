@@ -1,4 +1,4 @@
-import type { BaseReturnType, CommonStyleUtils, FullStylish, FullToken, ReturnStyleToUse, Theme, ThemeAppearance } from "../../types";
+import type { BaseReturnType, CommonStyleUtils, FullStylish, FullToken, ReturnStyleToUse, Theme, ThemeAppearance, ClassNamesUtil } from "../../types";
 /**
  * 书写样式时使用的第一个参数
  */
@@ -30,6 +30,7 @@ export interface ReturnStyles<T extends BaseReturnType> extends Pick<CommonStyle
     styles: ReturnStyleToUse<T>;
     theme: Omit<Theme, 'prefixCls'>;
     prefixCls: string;
+    fastCx: ClassNamesUtil;
 }
 export type GetStyleFn<Input extends BaseReturnType, Props> = (utils: CreateStylesUtils, props: Props) => Input;
 /**
