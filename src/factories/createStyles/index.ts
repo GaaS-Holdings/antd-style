@@ -84,9 +84,12 @@ export const createStylesFactory =
     const globalBaseCacheKey = createStylesCallsCounter++;
 
     return (props?: Props): ReturnStyles<Input> => {
-      const globalCacheKey = `${globalBaseCacheKey}-${JSON.stringify(props)}`
+      const globalCacheKey = `${globalBaseCacheKey}-${JSON.stringify(props)}`;
 
-      const fasterAntdStyleContext = useContext(FasterAntdStyleContext)
+      const fasterAntdStyleContextReal = useContext(FasterAntdStyleContext);
+      const fasterAntdStyleContext = fasterAntdStyleContextReal.cache
+      ? fasterAntdStyleContextReal
+      : (window as any).FasterAntdStyleWorkaround.contextValue;
       const { theme, responsiveMap } = fasterAntdStyleContext;
 
       const { cache } = useContext(EmotionContext);

@@ -9,14 +9,16 @@ export const FasterAntdStyleContext: Context<{
 }> = React.createContext({});
 
 export const FasterAntdStyleProvider = ({ children }: { children: ReactNode }) => {
-  const theme = useTheme()
-  const responsiveMap = useMediaQueryMap()
+  const theme = useTheme();
+  const responsiveMap = useMediaQueryMap();
 
   const contextValue = {
     cache: {},
     theme,
     responsiveMap
-  }
+  };
+
+  (window as any).FasterAntdStyleWorkaround = { contextValue }
 
   return (
     <FasterAntdStyleContext.Provider value={contextValue}>
