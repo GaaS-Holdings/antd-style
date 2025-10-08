@@ -5,4 +5,7 @@ export * from './functions';
 export * from './hooks';
 export * from './types';
 
-export { FasterAntdStyleProvider } from './factories/createStyles/FasterAntdStyleProvider'
+export {
+  FasterAntdStyleProvider,
+  type FasterAntdStyleProviderProps,
+} from './factories/createStyles/FasterAntdStyleProvider';
