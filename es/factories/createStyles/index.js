@@ -1,12 +1,19 @@
-import _slicedToArray from "@babel/runtime/helpers/esm/slicedToArray";
-import _typeof from "@babel/runtime/helpers/esm/typeof";
-import _objectWithoutProperties from "@babel/runtime/helpers/esm/objectWithoutProperties";
-var _excluded = ["stylish", "appearance", "isDarkMode", "prefixCls"],
-  _excluded2 = ["prefixCls"];
-import { useContext, createContext } from 'react';
-import { createCSS, serializeCSS } from "../../core";
-import { isReactCssResult, classnames } from "../../utils";
-import { convertResponsiveStyleToString } from "./response";
+import _objectWithoutProperties from '@babel/runtime/helpers/esm/objectWithoutProperties';
+import _slicedToArray from '@babel/runtime/helpers/esm/slicedToArray';
+import _typeof from '@babel/runtime/helpers/esm/typeof';
+import { useContext } from 'react';
+import { createCSS, serializeCSS } from '../../core';
+import { classnames, isReactCssResult } from '../../utils';
+import { FasterAntdStyleContext } from './FasterAntdStyleProvider';
+import { convertResponsiveStyleToString } from './response';
+var _excluded = ['stylish', 'appearance', 'isDarkMode', 'prefixCls'],
+  _excluded2 = ['prefixCls'];
+var fastCx = function fastCx() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  return classnames(args);
+};
 var generateStyles = function generateStyles(_ref) {
   var props = _ref.props,
     theme = _ref.theme,
@@ -14,7 +21,7 @@ var generateStyles = function generateStyles(_ref) {
     responsiveMap = _ref.responsiveMap,
     cx = _ref.cx,
     toClassName = _ref.toClassName;
-  var styles = function () {
+  var styles = (function () {
     var tempStyles;
     if (styleOrGetStyle instanceof Function) {
       var stylish = theme.stylish,
@@ -28,16 +35,19 @@ var generateStyles = function generateStyles(_ref) {
         return convertResponsiveStyleToString(styles, responsiveMap);
       };
       Object.assign(responsive, responsiveMap);
-      tempStyles = styleOrGetStyle({
-        token: token,
-        stylish: stylish,
-        appearance: appearance,
-        isDarkMode: isDarkMode,
-        prefixCls: _prefixCls,
-        cx: cx,
-        css: serializeCSS,
-        responsive: responsive
-      }, props);
+      tempStyles = styleOrGetStyle(
+        {
+          token: token,
+          stylish: stylish,
+          appearance: appearance,
+          isDarkMode: isDarkMode,
+          prefixCls: _prefixCls,
+          cx: cx,
+          css: serializeCSS,
+          responsive: responsive,
+        },
+        props,
+      );
     } else {
       tempStyles = styleOrGetStyle;
     }
@@ -45,19 +55,21 @@ var generateStyles = function generateStyles(_ref) {
       if (isReactCssResult(tempStyles)) {
         tempStyles = toClassName(tempStyles);
       } else {
-        tempStyles = Object.fromEntries(Object.entries(tempStyles).map(function (_ref2) {
-          var _ref3 = _slicedToArray(_ref2, 2),
-            key = _ref3[0],
-            value = _ref3[1];
-          if (_typeof(value) === 'object') {
-            return [key, toClassName(value)];
-          }
-          return [key, value];
-        }));
+        tempStyles = Object.fromEntries(
+          Object.entries(tempStyles).map(function (_ref2) {
+            var _ref3 = _slicedToArray(_ref2, 2),
+              key = _ref3[0],
+              value = _ref3[1];
+            if (_typeof(value) === 'object') {
+              return [key, toClassName(value)];
+            }
+            return [key, value];
+          }),
+        );
       }
     }
     return tempStyles;
-  }();
+  })();
   var prefixCls = theme.prefixCls,
     res = _objectWithoutProperties(theme, _excluded2);
   return {
@@ -65,26 +77,30 @@ var generateStyles = function generateStyles(_ref) {
     cx: cx,
     theme: res,
     prefixCls: prefixCls,
-    fastCx: classnames
+    fastCx: fastCx,
   };
 };
 var createStylesCallsCounter = 0;
-export var FasterAntdStyleContext = /*#__PURE__*/createContext({});
 export var createStylesFactory = function createStylesFactory(_ref4) {
   var hashPriority = _ref4.hashPriority,
     EmotionContext = _ref4.EmotionContext;
   return function (styleOrGetStyle, options) {
     var globalBaseCacheKey = createStylesCallsCounter++;
     return function (props) {
-      var globalCacheKey = "".concat(globalBaseCacheKey, "-").concat(JSON.stringify(props));
-      var fasterAntdStyleContext = useContext(FasterAntdStyleContext);
+      var globalCacheKey = ''.concat(globalBaseCacheKey, '-').concat(JSON.stringify(props));
+      var fasterAntdStyleContextReal = useContext(FasterAntdStyleContext);
+      var fasterAntdStyleContext = fasterAntdStyleContextReal.cache
+        ? fasterAntdStyleContextReal
+        : window.FasterAntdStyleWorkaround.contextValue;
       var theme = fasterAntdStyleContext.theme,
         responsiveMap = fasterAntdStyleContext.responsiveMap;
       var _useContext = useContext(EmotionContext),
         cache = _useContext.cache;
       var _createCSS = createCSS(cache, {
-          hashPriority: (options === null || options === void 0 ? void 0 : options.hashPriority) || hashPriority,
-          label: options === null || options === void 0 ? void 0 : options.label
+          hashPriority:
+            (options === null || options === void 0 ? void 0 : options.hashPriority) ||
+            hashPriority,
+          label: options === null || options === void 0 ? void 0 : options.label,
         }),
         cx = _createCSS.cx,
         toClassName = _createCSS.css;
@@ -95,7 +111,7 @@ export var createStylesFactory = function createStylesFactory(_ref4) {
           styleOrGetStyle: styleOrGetStyle,
           responsiveMap: responsiveMap,
           cx: cx,
-          toClassName: toClassName
+          toClassName: toClassName,
         });
         fasterAntdStyleContext.cache[globalCacheKey] = styles;
       }
