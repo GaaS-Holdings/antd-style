@@ -4,6 +4,9 @@ export declare const FasterAntdStyleContext: Context<{
     theme?: any;
     responsiveMap?: any;
 }>;
-export declare const FasterAntdStyleProvider: ({ children }: {
+export interface FasterAntdStyleProviderProps {
     children: ReactNode;
-}) => import("react/jsx-runtime").JSX.Element;
+    /** Wrap css in a layer to avoid global style conflict */
+    layer?: boolean;
+}
+export declare const FasterAntdStyleProvider: ({ children, layer }: FasterAntdStyleProviderProps) => import("react/jsx-runtime").JSX.Element;
